@@ -17,11 +17,9 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import nl.tomsanders.robotica2.hub.layers.GridLayer;
-import nl.tomsanders.robotica2.hub.layers.OriginLayer;
-
 @SuppressWarnings("serial")
-public class EnvironmentView extends JFrame implements MouseWheelListener, MouseMotionListener, MouseListener
+public class EnvironmentView extends JFrame implements 
+		MouseWheelListener, MouseMotionListener, MouseListener
 {
 	public static abstract class Layer
 	{
@@ -64,7 +62,7 @@ public class EnvironmentView extends JFrame implements MouseWheelListener, Mouse
 		this.addMouseWheelListener(this);
 	}
 	
-	public void addLayer(Layer layer)
+	public void addLayer(Layer layer) 
 	{
 		this.layers.add(layer);
 		this.repaint();

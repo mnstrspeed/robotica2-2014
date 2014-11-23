@@ -1,11 +1,7 @@
 package nl.tomsanders.robotica2.hub;
 
-import java.io.Serializable;
-
-public class OccupancyMap implements Serializable
+public class OccupancyMap 
 {
-	private static final long serialVersionUID = 9016237103757952488L;
-	
 	private final int unit;
 	private int[][] map;
 	
@@ -23,10 +19,5 @@ public class OccupancyMap implements Serializable
 	public int getUnit()
 	{
 		return this.unit;
-	}
-	
-	public void set(int x, int y, int value)
-	{
-		this.map[y][x] = value;
 	}
 }
