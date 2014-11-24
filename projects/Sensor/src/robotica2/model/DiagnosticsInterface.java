@@ -7,5 +7,4 @@ import lejos.robotics.navigation.Pose;
 public interface DiagnosticsInterface extends java.rmi.Remote 
 {
 	public OccupancyMap getOccupancyGrid() throws RemoteException;
-	public Pose getPose() throws RemoteException;
 }
