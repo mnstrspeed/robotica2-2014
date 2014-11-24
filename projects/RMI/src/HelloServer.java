@@ -5,26 +5,23 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.Date;
 
-import lejos.hardware.Button;
-import lejos.hardware.lcd.LCD;
-
 
 public class HelloServer extends UnicastRemoteObject implements Hello
 {
-	private ArrayList<Observer<String>> observers;
+	private ArrayList<Observer> observers;
 	
-	protected Program() throws RemoteException
+	protected HelloServer() throws RemoteException
 	{
 		super();
-		
-		this.observers = new ArrayList<Observer<String>>();
+		this.observers = new ArrayList<Observer>();
 	}
 
 	public static void main(String[] args)
 	{
 		try
 		{
-			System.setProperty("java.rmi.server.hostname", "10.0.1.1");
+			//System.setProperty("java.rmi.server.hostname", "10.0.1.1");
+			//System.setProperty("java.rmi.server.codebase", "...");
 			LocateRegistry.createRegistry(12345);
 			
 			HelloServer hello = new HelloServer();
@@ -34,34 +31,27 @@ public class HelloServer extends UnicastRemoteObject implements Hello
 		}
 		catch (Exception ex)
 		{
-			for (int i = 0; i < 8; i++)
-				LCD.drawString(ex.getMessage().substring(i * 18, (i + 1) * 18), 0, i);
+			System.out.println(ex);
 		}
 		
-		Button.waitForAnyPress();
 		System.exit(0);
 	}
 
-	public void run()
+	public void run() throws InterruptedException
 	{
-		LCD.drawString("Started", 0, 0);
-		while (!Button.ESCAPE.isDown())
+		System.out.println("Started");
+		//while (!Button.ESCAPE.isDown())
+		while (true)
 		{
-			Button.waitForAnyPress();
-			for (Observer<String> observer : this.observers)
+			//Button.waitForAnyPress();
+			Thread.sleep(5000);
+			for (Observer observer : this.observers)
 				observer.update(new Date().toString());
 		}
-		System.exit(0);
 	}
 
 	@Override
-	public String sayHello() throws RemoteException
-	{
-		return "This is so fat";
-	}
-
-	@Override
-	public void addObserver(Observer<String> observer) throws RemoteException
+	public void addObserver(Observer observer) throws RemoteException
 	{
 		this.observers.add(observer);
 	}
