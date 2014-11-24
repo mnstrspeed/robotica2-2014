@@ -11,6 +11,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import robotica2.model.DiagnosticsInterface;
+import robotica2.model.OccupancyMap;
 import nl.tomsanders.robotica2.hub.layers.GridLayer;
 import nl.tomsanders.robotica2.hub.layers.OccupancyMapLayer;
 import nl.tomsanders.robotica2.hub.layers.OriginLayer;
@@ -41,45 +42,50 @@ public class Hub
 	
 	public static void brickSelected(BrickEndpoint endpoint)
 	{
+		if (endpoint == null)
+			return;
+		
 		DiagnosticsInterface brickInterface;
 		try 
 		{
 			brickInterface = (DiagnosticsInterface)
 					Naming.lookup("//" + endpoint.getAddress().getHostAddress() + ":12345/HelloServer");
+			
+			OccupancyMap map = brickInterface.getOccupancyGrid();
+			for (int i = 0; i < map.getMap().length; i++)
+				for (int j = 0; j < map.getMap().length; j++)
+					if (map.getMap()[i][j])
+						System.out.println("WOW");
+			
+			OccupancyMapLayer mapLayer = new OccupancyMapLayer(map);
+			
+			EnvironmentView view = new EnvironmentView();
+			view.addLayer(new GridLayer(GridLayer.MILLIMETER, Color.DARK_GRAY));
+			view.addLayer(new GridLayer(GridLayer.CENTIMETER, Color.GRAY));
+			view.addLayer(new GridLayer(GridLayer.METER, Color.LIGHT_GRAY));
+			view.addLayer(mapLayer);
+			view.addLayer(new OriginLayer());
+			
+			view.setVisible(true);
+			
+			/*
+			while (true)
+			{
+				Thread.sleep(2000);
+				
+				// Refresh
+				OccupancyMap grid = brickInterface.getOccupancyGrid();
+				//mapLayer.setMap(grid);
+				//view.repaint();
+			}
+			*/
+			
+			// - Live sensor readings
+			// - Recording data
 		} 
 		catch (Exception e) 
 		{
 			throw new RuntimeException(e);
 		}
-		
-		OccupancyMapLayer mapLayer = new OccupancyMapLayer(brickInterface.getOccupancyGrid());
-		
-		EnvironmentView view = new EnvironmentView();
-		view.addLayer(new GridLayer(GridLayer.MILLIMETER, Color.DARK_GRAY));
-		view.addLayer(new GridLayer(GridLayer.CENTIMETER, Color.GRAY));
-		view.addLayer(new GridLayer(GridLayer.METER, Color.LIGHT_GRAY));
-		view.addLayer(mapLayer);
-		view.addLayer(new OriginLayer());
-		
-		view.setVisible(true);
-		
-		while (true)
-		{
-			try 
-			{
-				Thread.sleep(2000);
-			} 
-			catch (InterruptedException e) 
-			{
-				throw new RuntimeException(e);
-			}
-			
-			// Refresh
-			mapLayer.setMap(brickInterface.getOccupancyGrid());
-			view.repaint();
-		}
-		
-		// - Live sensor readings
-		// - Recording data
 	}
 }

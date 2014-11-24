@@ -36,7 +36,7 @@ public class OccupancyMapLayer extends EnvironmentView.Layer
 		{
 			for (int x = 0; x < map.getMap()[y].length; x++)
 			{
-				if (map.getMap()[y][x] > 0)
+				if (map.getMap()[y][x])
 					g.fillRect(x * map.getUnit(), y * map.getUnit(), 
 							map.getUnit(), map.getUnit());
 			}

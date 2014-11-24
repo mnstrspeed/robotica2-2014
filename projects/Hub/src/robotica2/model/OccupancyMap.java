@@ -1,17 +1,19 @@
 package robotica2.model;
 
-public class OccupancyMap 
+import java.io.Serializable;
+
+public class OccupancyMap implements Serializable
 {
 	private final int unit;
-	private int[][] map;
+	private boolean[][] map;
 	
-	public OccupancyMap(int[][] map, int unit)
+	public OccupancyMap(boolean[][] map, int unit)
 	{
 		this.map = map;
 		this.unit = unit;
 	}
 	
-	public int[][] getMap()
+	public boolean[][] getMap()
 	{
 		return this.map;
 	}

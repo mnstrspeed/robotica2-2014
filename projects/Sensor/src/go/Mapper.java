@@ -63,7 +63,12 @@ public class Mapper {
 		return r;
 	}
 	
-	public String print() {
+	public boolean[][] getMap()
+	{
+		return matrix;
+	}
+	
+	public void print() {
 		for (int i = 0; i < 250; i++) {
 			System.out.println(printRow(i));
 		}
