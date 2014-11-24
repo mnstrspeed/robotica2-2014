@@ -1,4 +1,4 @@
-package nl.tomsanders.robotica2.hub;
+package robotica2.model;
 
 public class OccupancyMap 
 {
