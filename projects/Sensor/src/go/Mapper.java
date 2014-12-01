@@ -37,7 +37,10 @@ public class Mapper {
 	
 	private void colourCoord(Pair<Integer,Integer> coord) {
 		System.out.println(coord.getFirst() + " " + coord.getSecond());
-		matrix[coord.getFirst()][coord.getSecond()] = true;
+		if (!(coord.getFirst() < 0) && !(coord.getSecond() < 0)) {
+			matrix[coord.getFirst()][coord.getSecond()] = true;
+		}
+
 	}
 	
 	public void enterTheMatrix() {
