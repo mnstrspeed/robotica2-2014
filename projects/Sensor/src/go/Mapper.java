@@ -30,7 +30,7 @@ public class Mapper {
 			int b = (int) (distance * 100);
 			Pair<Integer, Integer> p = new Pair((int)(a * x) + 125, (int) (b * y)); 
 			//System.out.println(p + " "+ angle + " " + a + " " + x + " " + y);
-			Button.waitForAnyPress();
+		//	Button.waitForAnyPress();
 			return p;
 		}
 	}
