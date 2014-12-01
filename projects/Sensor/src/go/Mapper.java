@@ -2,6 +2,8 @@ package go;
 
 import java.util.ArrayList;
 
+import lejos.hardware.Button;
+
 public class Mapper {
 
 	private boolean [][] matrix;
@@ -18,60 +20,54 @@ public class Mapper {
 	}
 	
 	private Pair<Integer, Integer> computeCoord(int angle, Float distance){
+		System.out.println(angle);
 		if(distance.isInfinite()){
 			return new Pair(-1, -1);
 		} else {
-			int x = (int) Math.cos(angle);
-			int y = (int) Math.sin(angle);
+			float x = (float) Math.cos(Math.toRadians(angle));
+			float y = (float) Math.sin(Math.toRadians(angle));
 			int a = (int) (distance * 100);
 			int b = (int) (distance * 100);
-			return new Pair(a * x + 250/2, b * y);
+			Pair<Integer, Integer> p = new Pair((int)(a * x) + 125, (int) (b * y)); 
+			//System.out.println(p + " "+ angle + " " + a + " " + x + " " + y);
+			Button.waitForAnyPress();
+			return p;
 		}
 	}
 	
 	private void colourCoord(Pair<Integer,Integer> coord) {
-		matrix[(int)coord.getFirst()][(int)coord.getSecond()] = true;
+		System.out.println(coord.getFirst() + " " + coord.getSecond());
+		matrix[coord.getFirst()][coord.getSecond()] = true;
 	}
 	
 	public void enterTheMatrix() {
 		for(int i = 0; i < results.size(); i++) {
-			int angle = i*5;
-			if(i == 0 || i == 35) {
-				for(int j = 0; j < 15; j++) {
-					Pair p = computeCoord(angle, results.get(i));
+			int angle = i*5 + 10;
+			System.out.println(angle);
+			if(i == 0) {
+				for(int j = 0; j <= 15; j++) {
+					Pair p = computeCoord(j, results.get(i));
 					if (!p.getFirst().equals(-1)) {
 						colourCoord(p);
 					}
 				}
 			} else {
-				for (int k = 0; k < 5; k++) {
-					Pair p = computeCoord(angle+10+k,results.get(i));
+				for (int k = 1; k <= 5; k++) {
+					Pair p = computeCoord(angle+k,results.get(i));
 					if (!p.getFirst().equals(-1)) {
 						colourCoord(p);
 					}
 				}
 			}
+			if (angle == 175) {
+				return;
+			}
 		}
-	}
-	
-	private String printRow(int row){
-		String r = "";
-		for (int j = 0; j < 250; j++) {
-			r += matrix[row][j] ? "1" : "0";
-		}
-		
-		return r;
 	}
 	
 	public boolean[][] getMap()
 	{
 		return matrix;
-	}
-	
-	public void print() {
-		for (int i = 0; i < 250; i++) {
-			System.out.println(printRow(i));
-		}
 	}
 	
 }
