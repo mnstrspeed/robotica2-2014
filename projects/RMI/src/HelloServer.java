@@ -20,7 +20,7 @@ public class HelloServer extends UnicastRemoteObject implements Hello
 	{
 		try
 		{
-			//System.setProperty("java.rmi.server.hostname", "10.0.1.1");
+			System.setProperty("java.rmi.server.hostname", "192.168.0.198");
 			//System.setProperty("java.rmi.server.codebase", "...");
 			LocateRegistry.createRegistry(12345);
 			
@@ -45,6 +45,8 @@ public class HelloServer extends UnicastRemoteObject implements Hello
 		{
 			//Button.waitForAnyPress();
 			Thread.sleep(5000);
+			
+			System.out.println("Updating...");
 			for (Observer observer : this.observers)
 				observer.update(new Date().toString());
 		}
